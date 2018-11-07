@@ -15,8 +15,10 @@ class ProductDetail extends Component {
         author: '',
         penerbit: '',
         harga: '',
-        isbn: ''
+        isbn: '',
+        stok: ''
     }
+
     book = []
     componentWillMount = () => {
         let id = this.props.match.params.id
@@ -28,7 +30,8 @@ class ProductDetail extends Component {
             author: this.book.author,
             penerbit: this.book.penerbit,
             harga: this.book.harga,
-            isbn: this.book.isbn
+            isbn: this.book.isbn,
+            stok: this.book.stok
         })
 
         console.log(this.book)
@@ -68,9 +71,29 @@ class ProductDetail extends Component {
         })
     }
 
+    delProduct = (id) => {
+        const url = "http://localhost:5000/api/users/items/" + id
+        const auth = "Bearer " + this.props.token
+        const header = {
+            "Authorization": auth,
+            "Access-Control-Allow-Origin": "*"
+        }
+
+        axios
+        .delete(url, { headers: header })
+        .then((response) => {
+        
+            alert("Delete sukses")
+            console.log("Response update: ", response)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+
     render(){
         // console.log(this.props.match.params.id)
-        const route = '/product/' + this.props.match.params.id
+        const route = '/dashboard'
         return (
             <div>
                 <NavBar />
@@ -105,10 +128,16 @@ class ProductDetail extends Component {
                                                     <input name="isbn" type="text" className="form-control" placeholder="ISBN" required value={this.state.isbn} onChange={(e) => this.changeInput(e)}/>
                                                 </div>
                                                 <div className="form-label-group">
+                                                    Stok : 
+                                                    <input name="stok" type="text" className="form-control" placeholder="Stok" required value={this.state.stok} onChange={(e) => this.changeInput(e)}/>
+                                                </div>
+                                                <div className="form-label-group">
                                                     Penerbit : 
                                                     <input name="penerbit" type="text" className="form-control" placeholder="Penerbit" required value={this.state.penerbit} onChange={(e) => this.changeInput(e)}/>
                                                 </div>
-                                                <Link to={route} className="btn btn-lg btn-primary btn-block text-uppercase" onClick={() => this.saveProduct(this.props.match.params.id)}> Simpan </Link >
+                                                <Link to={route} className="btn  btn-primary text-uppercase" onClick={() => this.saveProduct(this.props.match.params.id)}> Simpan </Link >
+                                                    &nbsp;
+                                                <Link to={route} className="btn  btn-danger text-uppercase" onClick={() => this.delProduct(this.props.match.params.id)}> Hapus </Link >
                                             </form>
 
                                         </div>  

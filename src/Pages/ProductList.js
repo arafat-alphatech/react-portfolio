@@ -5,7 +5,7 @@ import Footer from "../Components/Footer";
 import Product from "./Product";
 
 import "../App.css";
-import { withRouter } from 'react-router-dom' 
+import { withRouter , Link} from 'react-router-dom' 
 import { connect } from "unistore/react";
 import { actions } from "../store";
 
@@ -21,8 +21,9 @@ class ProductList extends Component {
         return (
             <div >
                 <NavBar />
-                <div className="container">
-                    <div className="row" style={{paddingTop: 80, paddingBottom: 100}}>
+                <div className="container"  style={{paddingTop: 80, paddingBottom: 100}}>
+                    <Link to="/tambah" className='btn btn-outline-success'>Tambah Product</Link>
+                    <div className="row">
                         {
                             listBooks.map((item, key) => {
 

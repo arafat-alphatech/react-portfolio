@@ -7,6 +7,12 @@ import { actions } from "../store";
 
 class NavBar extends Component {
 
+    handleLogout = () => {
+        this.props.token = ''
+        this.props.is_login= false
+        localStorage.removeItem('unistorePersist')
+    }
+
     render() {
         // console.log("is login: ", this.props.is_login)
         return (

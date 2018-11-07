@@ -49,6 +49,11 @@ const ProductDetail = Loadable({
   loading: () => <Loading />
 });
 
+const AddProduct = Loadable({
+  loader: () => import(/* webpackChunkName: "productlist"*/ "../Pages/TambahProduct"),
+  loading: () => <Loading />
+});
+
 const MainRoute = () => {
   return (
     <Switch>
@@ -59,6 +64,7 @@ const MainRoute = () => {
       <Route exact path='/dashboard/productlist' component={ProductList}/>
       <Route exact path='/dashboard/profile' component={Profile}/>
       <Route exact path='/signup' component={SignUp}/>
+      <Route exact path='/tambah' component={AddProduct}/>
       <Route path='/detail/:id' component={ContentDetail}/>
       <Route path='/product/:id' component={ProductDetail}/>
       <Route component={NotMatch} />
