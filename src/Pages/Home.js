@@ -13,7 +13,7 @@ import { actions } from "../store";
 class Home extends Component {
     componentDidMount = () => {
         localStorage.removeItem("unistorePersist")
-        this.props.getAllBook()
+        this.props.getAllBook(this.props.is_login, this.props.id_user)
         this.props.setFail()
     }
     
@@ -54,4 +54,4 @@ class Home extends Component {
     }
 }
 
-export default connect("listBooks, login_failed ,token, is_login, type", actions)(withRouter(Home))
+export default connect("listBooks, login_failed ,token, id_user, is_login, type", actions)(withRouter(Home))

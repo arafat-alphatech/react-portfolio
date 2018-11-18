@@ -21,6 +21,8 @@ class Product extends Component {
                                 <Link to={route}>
                                         {this.props.judul}
                                 </Link>
+                                &nbsp;
+                                <span className="badge badge-info">{this.props.ketegori}</span>
                             </h6>
                             <h6 className='product-author'>
                                 oleh {this.props.author}

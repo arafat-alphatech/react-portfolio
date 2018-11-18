@@ -32,6 +32,6 @@ position: relative;
 margin-bottom: 1rem;
 }
 
-.form-label-group input {
-border-radius: 2rem;
+.form-label-group input, .form-label-group select {
+    border-radius: 2rem;
 }

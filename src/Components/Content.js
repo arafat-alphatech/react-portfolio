@@ -6,6 +6,17 @@ import { actions } from "../store";
 
 class Content extends Component {
     
+    handleAddCart(){
+        if(this.props.is_login){
+            if(this.props.type == 'pelapak'){
+                this.props.addCart(this.props.id, this.props.token)
+            }
+        }else{
+            alert('Maaf login dahulu')
+            this.props.history.push("/signin") 
+        }
+    }
+
     render(){
         const route = '/detail/' + this.props.id
         return (
@@ -19,13 +30,17 @@ class Content extends Component {
                             <h6 className='product-title'>
                                 <Link to={route}>
                                         {this.props.judul}
-                                </Link>
+                                </Link> &nbsp;
+                                <span className="badge badge-info">{this.props.ketegori}</span>
                             </h6>
                             <h6 className='product-author'>
                                 oleh {this.props.author}
                             </h6>
                             <h6 className='product-price'>
                                 Rp. {(this.props.harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'))}
+                            </h6>
+                            <h6 className='product-author'>
+                                Pelapak: {this.props.pelapak}
                             </h6>
 					</div>
 					
@@ -34,7 +49,7 @@ class Content extends Component {
                             <Link to={route} style={{width: "100%"}} className="btn btn-outline-primary mb-2 my-sm-0" title="Lihat detail buku">Detail</Link>
                         </div>
                         <div className='col-sm-6'>
-                            <Link to='#' style={{width: "100%"}} className="btn btn-outline-success mb-2 my-sm-0" title="Tambah buku ke keranjang" onClick={() => this.props.addCart(this.props.id, this.props.token)}><i className="fas fa-cart-plus"></i></Link>
+                            <Link to='#' style={{width: "100%"}} className="btn btn-outline-success mb-2 my-sm-0" title="Tambah buku ke keranjang" onClick={() => this.handleAddCart()}><i className="fas fa-cart-plus"></i></Link>
                         </div>
                     </div>
 						<br/>

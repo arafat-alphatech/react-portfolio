@@ -5,18 +5,21 @@ import Footer from "../Components/Footer";
 import Product from "./Product";
 
 import "../App.css";
-import { withRouter , Link} from 'react-router-dom' 
+import { withRouter , Link, Redirect} from 'react-router-dom' 
 import { connect } from "unistore/react";
-import { actions } from "../store";
+import { actions } from "../store"; 
 
 class ProductList extends Component {
     
-    componentDidMount = () => {
+    componentWillMount = () => {
         this.props.getUserListBooks(this.props.token)
     }
 
     render() {
         const listBooks = this.props.userListBooks
+        if(this.props.type == 'admin'){
+			return <Redirect to= {{pathname: "/"}} />
+        }
 
         return (
             <div >
