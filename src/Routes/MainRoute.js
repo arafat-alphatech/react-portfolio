@@ -54,6 +54,21 @@ const AddProduct = Loadable({
   loading: () => <Loading />
 });
 
+const UserList = Loadable({
+  loader: () => import(/* webpackChunkName: "user list"*/ "../Pages/UserList"),
+  loading: () => <Loading />
+});
+
+const NewCategory = Loadable({
+  loader: () => import(/* webpackChunkName: "new category"*/ "../Pages/NewCategory"),
+  loading: () => <Loading />
+});
+
+const Histories = Loadable({
+  loader: () => import(/* webpackChunkName: "history"*/ "../Pages/Histories"),
+  loading: () => <Loading />
+});
+
 const MainRoute = () => {
   return (
     <Switch>
@@ -61,10 +76,13 @@ const MainRoute = () => {
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/profile" component={Profile} />
       <Route exact path='/dashboard' component={Dashboard}/>
-      <Route exact path='/dashboard/productlist' component={ProductList}/>
-      <Route exact path='/dashboard/profile' component={Profile}/>
+      <Route exact path='/productlist' component={ProductList}/>
+      <Route exact path='/profile' component={Profile}/>
       <Route exact path='/signup' component={SignUp}/>
       <Route exact path='/tambah' component={AddProduct}/>
+      <Route exact path='/user-list' component={UserList}/>
+      <Route exact path='/new-category' component={NewCategory}/>
+      <Route exact path='/history' component={Histories}/>
       <Route path='/detail/:id' component={ContentDetail}/>
       <Route path='/product/:id' component={ProductDetail}/>
       <Route component={NotMatch} />

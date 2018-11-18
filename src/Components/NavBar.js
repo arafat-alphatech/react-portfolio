@@ -14,12 +14,19 @@ class NavBar extends Component {
         }
     }
 
+    handleLogout(){
+        this.props.getAllBook(false)
+        this.props.handleLogout()
+    }
+
     componentWillMount(){
-        this.getCartData(this.props.token)
+        if(this.props.type == 'pelapak'){
+            this.getCartData(this.props.token)
+        }
+        this.props.getAllCategory()
     }
 
     render() {
-        // console.log("is login: ", this.props.is_login)
         return (
             <div>
 
@@ -31,12 +38,20 @@ class NavBar extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <form className="form-inline my-2 my-lg-0">
-                    <input className="form-control mr-sm-2" type="search" placeholder="Search" onChange={(e) => this.props.handleSearch(e.target.value)} aria-label="Search" />
-                </form>
+
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mx-auto">
+                    <ul className="navbar-nav ml-auto">
+                        {
+                            this.props.match.path == "/" ?
+                            <li>
+                                <form className="form-inline my-2 my-lg-0">
+                                    <input className="form-control mr-sm-2" type="search" placeholder="Search" onChange={(e) => this.props.handleSearch(e.target.value)} aria-label="Search" />
+                                </form>
+                            </li>
+                            :
+                            ""
+                        }
                         {
                             this.props.is_login ? 
                             ""  
@@ -55,7 +70,7 @@ class NavBar extends Component {
 
 }
                         {
-                            this.props.is_login ? 
+                            this.props.is_login && this.props.type == 'pelapak' ? 
                             <li className="nav-item">
                                 <a href="#" data-toggle="modal" data-target="#exampleModal" className="nav-link" onClick={() => this.getCartData(this.props.token)}>Cart</a>
                             </li>
@@ -65,16 +80,39 @@ class NavBar extends Component {
                         }
                         {
                             this.props.is_login ?
-                            <li className="nav-item">
-                                <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                            </li>
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Dashboard
+                                    </a>
+                                    {
+                                        this.props.type == 'admin' ?
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <Link className="dropdown-item" to="/user-list">Users List</Link>
+                                            <Link className="dropdown-item" to="/new-category">New Category</Link>
+                                        </div>
+                                        :
+                                        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <Link className="dropdown-item" to="/productlist">My Product</Link>
+                                            <Link className="dropdown-item" to="/history">History</Link>
+                                            <Link className="dropdown-item" to="/profile">Profile</Link>
+                                        </div>
+                                    }
+                                </li>
                             :
                             ""
                         }
                         {
                             this.props.is_login ? 
                             <li className="nav-item">
-                                <Link to="/" className="nav-link" onClick={() => this.props.handleLogout()} >Sign Out</Link>
+                                <span className="nav-link disabled">{this.props.name}</span>
+                            </li>
+                            :
+                            ""  
+                        }
+                        {
+                            this.props.is_login ? 
+                            <li className="nav-item">
+                                <Link to="/" className="nav-link" onClick={() => this.handleLogout()} >Sign Out</Link>
                             </li>
                             :
                             ""  
@@ -82,7 +120,12 @@ class NavBar extends Component {
                     </ul>
                 </div>
             </nav>
-            <ModalCart/>
+            {
+                this.props.type == 'pelapak' ? 
+                <ModalCart/>
+                :
+                ""
+            }
 
             </div>
         )
@@ -90,4 +133,4 @@ class NavBar extends Component {
 }
 
 // export default NavBar;
-export default connect("listBooks, token, type, is_login, cart", actions)(withRouter(NavBar))
+export default connect("listBooks, token, type, name, is_login, cart", actions)(withRouter(NavBar))

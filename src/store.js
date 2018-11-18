@@ -10,11 +10,13 @@ const initialState = {
     userBook: [],
     book: [],
     token: '',
+    id_user: '',
+    name: '',
     is_login: false,
     login_failed: false,
     type: '',
-    cart: []
-
+    cart: [],
+    category: []
   };
   
 const store =
@@ -27,8 +29,29 @@ const adapter = localStorageAdapter();
 persistStore(store, adapter);
 
 const actions = store => ({
-    getAllBook: async (state) => {
-        const url = "http://localhost:5000/api/public/items"
+    getAllCategory: async (state) => {
+        const url = "http://localhost:5000/api/public/kategori"
+        await axios
+        .get(url)
+        .then((response) => {
+            store.setState({
+                category: response.data.data,
+            })
+            // console.log("Response all book: ", response)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },
+
+    getAllBook: async (state, is_login, id_user) => {
+        let url = ''
+        if(is_login){
+            url = "http://localhost:5000/api/public/items?is_login=True&id_user=" + id_user
+
+        }else{
+            url = "http://localhost:5000/api/public/items"
+        }
         await axios
         .get(url)
         .then((response) => {
@@ -50,12 +73,13 @@ const actions = store => ({
             store.setState({
                 book: response.data.data,
             })
-            console.log("Response one book: ", response)
+            // console.log("Response one book: ", response)
         })
         .catch((err) => {
             console.log(err)
         })
     },
+
     signUpHandle: async (state, name, username, email, password, alamat, no_telp) => {
         const url = "http://localhost:5000/api/users/register"
 
@@ -74,7 +98,10 @@ const actions = store => ({
             alert("Sign up sukses")
             store.setState({
                 token: response.data.token,
-                is_login: true
+                is_login: true,
+                id_user: response.data.id_user,
+                type: response.data.type,
+                name: response.data.name
             })
             console.log("Response signup: ", response)
         })
@@ -106,9 +133,12 @@ const actions = store => ({
             store.setState({
                 token: response.data.token,
                 is_login: true,
-                login_failed: false
+                login_failed: false,
+                id_user: response.data.id_user,
+                type: response.data.type,
+                name: response.data.name
             })
-            console.log("Response: ", response)
+            // console.log("Response: ", response)
         })
         .catch((err) => {
             store.setState({
@@ -187,31 +217,7 @@ const actions = store => ({
         await axios
         .patch(url,body ,header)
         .then((res) => {
-            let cart = state.cart
-            let data = cart.data
-            data.map((item, key) => {
-                if(item['buku.id'] == id){
-                    if(action == 'tambah_qty'){
-                            cart.data[key].qty += 1
-                            cart.total_qty += 1
-                            cart.total_price += 1 * cart.data[key].price
-                    }
-                    else if(action == 'kurang_qty' && cart.data[key].qty > 1){
-                        cart.data[key].qty -= 1
-                        cart.total_qty -= 1
-                        cart.total_price -= 1 * cart.data[key].price
-                    }
-                    else if(action == "delete"){
-                        cart.total_qty -= cart.data[key].qty
-                        cart.total_price -= cart.data[key].qty * cart.data[key].price
-                        cart.data.splice(key, 1)
-                    }
-                    store.setState({
-                        cart: cart
-                    })
-                    console.log(res)
-                }
-            })
+            console.log(res)
         })
         .catch((err) => {
             console.log(err)

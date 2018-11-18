@@ -17,15 +17,21 @@ class SignIn extends Component {
 
 	inputChange = (e) => {
 		this.setState({ [e.target.name]: e.target.value})
-		console.log(e.target.value)
+		// console.log(e.target.value)
 	}
 	
 
 	render() {
 		if (this.props.is_login){
-			return <Redirect to={{pathname: "/"}} />
+			return <Redirect to={{pathname: "/productlist"}} />
 		} 
 		
+		if(this.props.login_failed){
+			setInterval(() => {
+				this.props.setFail()
+			}, 5000)
+		}
+
 		return (
 	  
 	  	<div>
@@ -54,7 +60,7 @@ class SignIn extends Component {
 												""
 											}
 										</div>
-										<Link to="/signin" onClick={() => this.props.signInHandle(this.state.username, this.state.password) } className="btn btn-lg btn-primary btn-block text-uppercase">Sign in</Link>
+										<button to="/signin" onClick={() => this.props.signInHandle(this.state.username, this.state.password) } className="btn btn-lg btn-primary btn-block text-uppercase">Sign in </button>
 									</form>
 								</div>
 								<div className="text-center" style={{marginBottom: 20}}>

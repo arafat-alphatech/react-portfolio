@@ -15,9 +15,20 @@ class ContentDetail extends Component {
         console.log(this.props)
     }
 
-    render(){
+    handleAddCart(){
+        if(this.props.is_login){
+            if(this.props.type == 'pelapak'){
+                this.props.addCart(this.props.id, this.props.token)
+            }
+        }else{
+            
+            alert('Maaf login dahulu')
+            this.props.history.push("/signin") 
+        }
+    }
 
-        // console.log(this.props.match.params.id)
+    render(){
+        
         const route = '/detail/' + this.props.match.params.id
         const book = this.props.book
         if (book != undefined){
@@ -38,7 +49,8 @@ class ContentDetail extends Component {
                                     <div className="col-sm-8">
                                         <div className="card-body" style={{ padding: 0 }}>
                                             <h6 className='product-title f25'>
-                                                {book.judul}
+                                                {book.judul} &nbsp;
+                                                <span className="badge badge-info">{book['kategori_buku.kategori']}</span>
                                             </h6>
                                             <h6 className='product-author'> oleh {book.author} </h6>
                                             <h6 className='product-price'> Rp. { (book.harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')) }</h6>
@@ -63,7 +75,7 @@ class ContentDetail extends Component {
                                                 </tbody>
                                             </table>
                                         </div>  
-                                        <Link to={route} className="btn btn-outline-success mb-2 my-sm-0 mx-5" onClick={() => this.props.addCart(this.props.match.params.id, this.props.token)}>Tambah Keranjang</Link>
+                                        <Link to={route} className="btn btn-outline-success mb-2 my-sm-0 mx-5" onClick={() => this.handleAddCart()}>Tambah Keranjang</Link>
                                         <br/>
                                     </div>
                                         

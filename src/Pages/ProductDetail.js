@@ -14,13 +14,14 @@ class ProductDetail extends Component {
         judul: '',
         author: '',
         penerbit: '',
-        harga: '',
+        harga: 0,
         isbn: '',
-        stok: ''
+        stok: 0,
+        kategori: 0
     }
-
+    
     book = []
-    componentWillMount = () => {
+    updateUserBook = () => {
         let id = this.props.match.params.id
         this.props.getBook(id)
         this.book = this.props.book
@@ -29,12 +30,17 @@ class ProductDetail extends Component {
             judul: this.book.judul,
             author: this.book.author,
             penerbit: this.book.penerbit,
-            harga: this.book.harga,
+            harga: parseInt(this.book.harga),
             isbn: this.book.isbn,
-            stok: this.book.stok
+            stok: parseInt(this.book.stok),
+            kategori: parseInt(this.book.kategori)
         })
-
+    
         console.log(this.book)
+    }
+
+    componentDidMount = () => {
+        this.updateUserBook()
     }
 
     changeInput = e => {
@@ -49,6 +55,7 @@ class ProductDetail extends Component {
             author: this.state.author,
             penerbit: this.state.penerbit,
             harga: this.state.harga,
+            kategori: this.state.kategori,
             isbn: this.state.isbn
         }
         const url = "http://localhost:5000/api/users/items/" + id
@@ -62,7 +69,7 @@ class ProductDetail extends Component {
         axios
         .patch(url, body, { headers: header })
         .then((response) => {
-        
+            this.updateUserBook()
             alert("Update sukses")
             console.log("Response update: ", response)
         })
@@ -92,8 +99,7 @@ class ProductDetail extends Component {
     }
 
     render(){
-        // console.log(this.props.match.params.id)
-        const route = '/dashboard'
+        const route = '/productlist'
         return (
             <div>
                 <NavBar />
@@ -135,6 +141,16 @@ class ProductDetail extends Component {
                                                     Penerbit : 
                                                     <input name="penerbit" type="text" className="form-control" placeholder="Penerbit" required value={this.state.penerbit} onChange={(e) => this.changeInput(e)}/>
                                                 </div>
+                                                <div className="form-label-group">
+                                                    Kategori :
+                                                    <select name="kategori" className="form-control" value={this.state.kategori} onChange={(e) => this.changeInput(e)}>
+                                                        {
+                                                            this.props.category.map((item, key) => {
+                                                                return <option key={key} value={item.id} >{item.kategori}</option>
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
                                                 <Link to={route} className="btn  btn-primary text-uppercase" onClick={() => this.saveProduct(this.props.match.params.id)}> Simpan </Link >
                                                     &nbsp;
                                                 <Link to={route} className="btn  btn-danger text-uppercase" onClick={() => this.delProduct(this.props.match.params.id)}> Hapus </Link >
@@ -158,4 +174,4 @@ class ProductDetail extends Component {
     }
 }
 
-export default connect("listBooks, book, token, type, is_login", actions)(withRouter(ProductDetail))
+export default connect("listBooks, category, userBook, book, token, type, is_login", actions)(withRouter(ProductDetail))

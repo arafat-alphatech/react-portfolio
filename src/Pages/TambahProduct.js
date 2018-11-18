@@ -17,6 +17,7 @@ class TambahProduct extends Component {
         harga: '',
         isbn: 0,
         url_picture: '',
+        kategori: 0,
         stok: 0
     }
     book = []
@@ -38,6 +39,7 @@ class TambahProduct extends Component {
             harga: parseInt(this.state.harga) ,
             isbn: parseInt(this.state.isbn),
             stok: parseInt(this.state.stok),
+            kategori: parseInt(this.state.kategori),
             url_picture: this.state.url_picture
         }
 
@@ -52,7 +54,8 @@ class TambahProduct extends Component {
         .post(url, body, { headers: header })
         .then((response) => {
             alert("Sukses menambahkan data")
-            console.log("Response update: ", response)
+            // console.log("Response update: ", response)
+            this.props.getUserListBooks(this.props.token)
         })
         .catch((err) => {
             alert("Gagal, nomor ISBN tidak boleh sama ")
@@ -61,8 +64,6 @@ class TambahProduct extends Component {
     }
 
     render(){
-        // console.log(this.props.match.params.id)
-        const route = "/dashboard"
         return (
             <div>
                 <NavBar />
@@ -102,10 +103,20 @@ class TambahProduct extends Component {
                                                     <input name="penerbit" type="text" className="form-control" placeholder="Penerbit" required onChange={(e) => this.changeInput(e)}/>
                                                 </div>
                                                 <div className="form-label-group">
+                                                    Kategori :
+                                                    <select name="kategori" className="form-control" onChange={(e) => this.changeInput(e)}>
+                                                        {
+                                                            this.props.category.map((item, key) => {
+                                                                return <option key={key} value={item.id} >{item.kategori}</option>
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div className="form-label-group">
                                                     Url Gambar : 
                                                     <input name="url_picture" type="text" className="form-control" placeholder="Url Gambar" required onChange={(e) => this.changeInput(e)}/>
                                                 </div>
-                                                <Link to={route} className="btn btn-lg btn-primary btn-block text-uppercase" onClick={() => this.addProduct()}> Tambah </Link >
+                                                <Link to="/productlist" className="btn btn-lg btn-primary btn-block text-uppercase" onClick={() => this.addProduct()}> Tambah </Link >
                                             </form>
 
                                         </div>  
@@ -126,4 +137,4 @@ class TambahProduct extends Component {
     }
 }
 
-export default connect("listBooks, book, token, type, is_login", actions)(withRouter(TambahProduct))
+export default connect("listBooks, category, book, token, type, is_login", actions)(withRouter(TambahProduct))
