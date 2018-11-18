@@ -14,13 +14,16 @@ class ContentDetail extends Component {
         this.props.getBook(id)
         console.log(this.props)
     }
+
     render(){
 
         // console.log(this.props.match.params.id)
         const route = '/detail/' + this.props.match.params.id
         const book = this.props.book
-        return (
-            <div>
+        if (book != undefined){
+
+            return (
+                <div>
                 <NavBar />
                 <div className="container">
                     <div className="row" style={{paddingTop: 100, paddingBottom: 100}}>
@@ -60,7 +63,7 @@ class ContentDetail extends Component {
                                                 </tbody>
                                             </table>
                                         </div>  
-                                        <Link to={route} className="btn btn-outline-primary mb-2 my-sm-0 mx-5">Tambah Keranjang</Link>
+                                        <Link to={route} className="btn btn-outline-success mb-2 my-sm-0 mx-5" onClick={() => this.props.addCart(this.props.match.params.id, this.props.token)}>Tambah Keranjang</Link>
                                         <br/>
                                     </div>
                                         
@@ -74,7 +77,8 @@ class ContentDetail extends Component {
                 <Footer />
             </div>
 
-        )
+            )
+        }
     }
 }
 
