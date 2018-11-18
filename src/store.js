@@ -13,6 +13,7 @@ const initialState = {
     is_login: false,
     login_failed: false,
     type: '',
+    cart: []
 
   };
   
@@ -34,7 +35,7 @@ const actions = store => ({
             store.setState({
                 listBooks: response.data.data,
             })
-            console.log("Response all book: ", response)
+            // console.log("Response all book: ", response)
         })
         .catch((err) => {
             console.log(err)
@@ -83,6 +84,8 @@ const actions = store => ({
     },
 
     handleLogout: (state) => {
+        localStorage.clear()
+
         store.setState({
             token: '',
             is_login: false
@@ -117,17 +120,17 @@ const actions = store => ({
 
     handleSearch: async (state, value) => {
         const url = "http://localhost:5000/api/public/items?judul=" + value
-        console.log(url)
-        await axios
-        .get(url)
-        .then((response) => {
-            store.setState({
-                listBooks: response.data.data
+        // console.log(url)
+                await axios
+                .get(url)
+                .then((response) => {
+                    store.setState({
+                    listBooks: response.data.data
+                })
             })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+            .catch((err) => {
+                console.log(err)
+            })
     },
 
     setFail: state =>{
@@ -146,6 +149,116 @@ const actions = store => ({
             store.setState({
                 userListBooks: response.data.data
             })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },
+
+    getCartData: async (state, token) => {   
+        let url = "http://localhost:5000/api/users/cart"
+        let auth = "Bearer " + token
+        // console.log(auth)
+        
+        await axios
+        .get(url, { headers: { "Authorization": auth } })
+        .then((res) => {
+            store.setState({
+                cart: res.data
+            })
+            // console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },
+
+    updateCart: async (state, id, token, action) => {
+        let url = "http://localhost:5000/api/users/cart/" + id
+        let auth = "Bearer " + token
+        let body = {
+            "action": action
+        }
+        let header = { 
+            headers: { 
+                "Authorization": auth 
+            } 
+        }
+        await axios
+        .patch(url,body ,header)
+        .then((res) => {
+            let cart = state.cart
+            let data = cart.data
+            data.map((item, key) => {
+                if(item['buku.id'] == id){
+                    if(action == 'tambah_qty'){
+                            cart.data[key].qty += 1
+                            cart.total_qty += 1
+                            cart.total_price += 1 * cart.data[key].price
+                    }
+                    else if(action == 'kurang_qty' && cart.data[key].qty > 1){
+                        cart.data[key].qty -= 1
+                        cart.total_qty -= 1
+                        cart.total_price -= 1 * cart.data[key].price
+                    }
+                    else if(action == "delete"){
+                        cart.total_qty -= cart.data[key].qty
+                        cart.total_price -= cart.data[key].qty * cart.data[key].price
+                        cart.data.splice(key, 1)
+                    }
+                    store.setState({
+                        cart: cart
+                    })
+                    console.log(res)
+                }
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    },
+
+    perubahanQty: (state, id, action) => {
+        let cart = state.cart
+        let data = cart.data
+        data.map((item, key) => {
+            if(item['buku.id'] == id){
+                if(action == 'tambah_qty'){
+                        cart.data[key].qty += 1
+                        cart.total_qty += 1
+                        cart.total_price += 1 * cart.data[key].price
+                }
+                else if(action == 'kurang_qty' && cart.data[key].qty > 1){
+                    cart.data[key].qty -= 1
+                    cart.total_qty -= 1
+                    cart.total_price -= 1 * cart.data[key].price
+                }
+                else if(action == "delete"){
+                    cart.total_qty -= cart.data[key].qty
+                    cart.total_price -= cart.data[key].qty * cart.data[key].price
+                    cart.data.splice(key, 1)
+                }
+                store.setState({
+                    cart: cart
+                })
+                console.log(state.cart)
+            }
+        })
+    },
+
+    addCart: async (state, id, token) => {
+        let url = "http://localhost:5000/api/users/cart/" + id
+        let auth = "Bearer " + token
+        let body = {}
+        let header = { 
+            headers: { 
+                "Authorization": auth 
+            } 
+        }
+        await axios
+        .post(url, body ,header)
+        .then((res) => {
+            alert('Berhasil tambah buku ke keranjang')
         })
         .catch((err) => {
             console.log(err)

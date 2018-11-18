@@ -28,8 +28,15 @@ class Content extends Component {
                                 Rp. {(this.props.harga.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'))}
                             </h6>
 					</div>
-						
-						<Link to={route} className="btn btn-outline-primary mb-2 my-sm-0 mx-5">Detail</Link>
+					
+                    <div className='row'>
+                        <div className='col-sm-6'>
+                            <Link to={route} style={{width: "100%"}} className="btn btn-outline-primary mb-2 my-sm-0" title="Lihat detail buku">Detail</Link>
+                        </div>
+                        <div className='col-sm-6'>
+                            <Link to='#' style={{width: "100%"}} className="btn btn-outline-success mb-2 my-sm-0" title="Tambah buku ke keranjang" onClick={() => this.props.addCart(this.props.id, this.props.token)}><i className="fas fa-cart-plus"></i></Link>
+                        </div>
+                    </div>
 						<br/>
 				</div>  
 			</div>
