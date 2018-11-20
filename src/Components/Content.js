@@ -21,7 +21,7 @@ class Content extends Component {
         const route = '/detail/' + this.props.id
         return (
 
-			<div className='col-md-3 col-sm-6 col-xs-12'>
+			<div className='col-md-3 col-sm-6 col-xs-12 mb-3'>
 				<div className="card mt-3 mb-3" style={{ height: "100%" }}>
 					<div className="card-body" style={{ padding: 0 }}>
                         <Link to={route}>
@@ -52,7 +52,6 @@ class Content extends Component {
                             <Link to='#' style={{width: "100%"}} className="btn btn-outline-success mb-2 my-sm-0" title="Tambah buku ke keranjang" onClick={() => this.handleAddCart()}><i className="fas fa-cart-plus"></i></Link>
                         </div>
                     </div>
-						<br/>
 				</div>  
 			</div>
 

@@ -8,6 +8,7 @@ import ModalCart from "./ModalCart"
 
 class NavBar extends Component {
 
+
     getCartData(token){
         if(token != ''){
             this.props.getCartData(token)
@@ -38,8 +39,6 @@ class NavBar extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-
-
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         {
@@ -68,11 +67,20 @@ class NavBar extends Component {
                                 <Link to="/signup" className="nav-link">Sign Up</Link>
                             </li>
 
-}
+                        }
                         {
                             this.props.is_login && this.props.type == 'pelapak' ? 
                             <li className="nav-item">
-                                <a href="#" data-toggle="modal" data-target="#exampleModal" className="nav-link" onClick={() => this.getCartData(this.props.token)}>Cart</a>
+                                <a href="#" data-toggle="modal" data-target="#exampleModal" className="nav-link" onClick={() => this.getCartData(this.props.token)}>
+                                Cart
+                                &nbsp;
+                                {
+                                    this.props.cart.data != undefined ?
+                                    <span className="badge badge-primary">{this.props.cart.data.length}</span>
+                                    :
+                                    ""
+                                }
+                                </a>
                             </li>
                             :
                             ""  
