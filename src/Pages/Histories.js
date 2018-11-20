@@ -14,7 +14,7 @@ class Histories extends Component {
     }
    
     getDataHistory = (token) => {
-        let url = "http://localhost:5000/api/users/cart?status=True"
+        let url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/cart?status=True"
         let auth = "Bearer " + token
         let self = this
         

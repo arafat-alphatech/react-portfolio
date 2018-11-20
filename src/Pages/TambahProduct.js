@@ -43,7 +43,7 @@ class TambahProduct extends Component {
             url_picture: this.state.url_picture
         }
 
-        const url = "http://localhost:5000/api/users/items"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/items"
         const auth = "Bearer " + this.props.token
         const header = {
             "Authorization": auth

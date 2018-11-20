@@ -10,7 +10,7 @@ import axios from "axios";
  class ModalCart extends Component {
      
     handleBayar = (token) => {
-        let url = "http://localhost:5000/api/users/cart/0"
+        let url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/cart/0"
         let auth = "Bearer " + token
         let body = {
             "action": "bayar"

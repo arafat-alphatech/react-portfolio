@@ -30,7 +30,7 @@ persistStore(store, adapter);
 
 const actions = store => ({
     getAllCategory: async (state) => {
-        const url = "http://localhost:5000/api/public/kategori"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/public/kategori"
         await axios
         .get(url)
         .then((response) => {
@@ -47,10 +47,10 @@ const actions = store => ({
     getAllBook: async (state, is_login, id_user) => {
         let url = ''
         if(is_login){
-            url = "http://localhost:5000/api/public/items?is_login=True&id_user=" + id_user
+            url = "https://apiportfolio-api-heroku.herokuapp.com/api/public/items?is_login=True&id_user=" + id_user
 
         }else{
-            url = "http://localhost:5000/api/public/items"
+            url = "https://apiportfolio-api-heroku.herokuapp.com/api/public/items"
         }
         await axios
         .get(url)
@@ -66,7 +66,7 @@ const actions = store => ({
     },
 
     getBook: async (state, id) => {
-        const url = "http://localhost:5000/api/public/items/" + id
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/public/items/" + id
         await axios
         .get(url)
         .then((response) => {
@@ -81,7 +81,7 @@ const actions = store => ({
     },
 
     signUpHandle: async (state, name, username, email, password, alamat, no_telp) => {
-        const url = "http://localhost:5000/api/users/register"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/register"
 
         const body = {
             name: name,
@@ -120,7 +120,7 @@ const actions = store => ({
     },
 
     signInHandle: async (state, username, password) => {
-        const url = "http://localhost:5000/api/users/login"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/login"
 
         const body = {
             username: username,
@@ -149,7 +149,7 @@ const actions = store => ({
     },
 
     handleSearch: async (state, value) => {
-        const url = "http://localhost:5000/api/public/items?judul=" + value
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/public/items?judul=" + value
         // console.log(url)
                 await axios
                 .get(url)
@@ -170,7 +170,7 @@ const actions = store => ({
     },
 
     getUserListBooks: async (state, token) => {
-        const url = "http://localhost:5000/api/users/items"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/items"
         const auth = "Bearer " + token
         // console.log(auth)
         await axios
@@ -186,7 +186,7 @@ const actions = store => ({
     },
 
     getCartData: async (state, token) => {   
-        let url = "http://localhost:5000/api/users/cart"
+        let url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/cart"
         let auth = "Bearer " + token
         // console.log(auth)
         
@@ -204,7 +204,7 @@ const actions = store => ({
     },
 
     updateCart: async (state, id, token, action) => {
-        let url = "http://localhost:5000/api/users/cart/" + id
+        let url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/cart/" + id
         let auth = "Bearer " + token
         let body = {
             "action": action
@@ -253,7 +253,7 @@ const actions = store => ({
     },
 
     addCart: async (state, id, token) => {
-        let url = "http://localhost:5000/api/users/cart/" + id
+        let url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/cart/" + id
         let auth = "Bearer " + token
         let body = {}
         let header = { 

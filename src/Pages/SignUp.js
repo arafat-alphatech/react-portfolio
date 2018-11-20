@@ -22,7 +22,7 @@ class SignUp extends Component{
 
     // handle data username dan email yang sama dari DB
     inputHandler(name){
-        const url = "http://localhost:5000/api/users/register"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/register"
 
         const body = {
             name: this.state.name,
