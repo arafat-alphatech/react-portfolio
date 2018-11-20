@@ -16,7 +16,7 @@ class Profile extends Component {
     }
 
     componentDidMount = () => {
-        const url = "http://localhost:5000/api/users/me"
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/me"
         const auth = "Bearer " + this.props.token
         const self = this
         axios

@@ -58,7 +58,7 @@ class ProductDetail extends Component {
             kategori: this.state.kategori,
             isbn: this.state.isbn
         }
-        const url = "http://localhost:5000/api/users/items/" + id
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/items/" + id
         const auth = "Bearer " + this.props.token
         const header = {
             "Authorization": auth,
@@ -79,7 +79,7 @@ class ProductDetail extends Component {
     }
 
     delProduct = (id) => {
-        const url = "http://localhost:5000/api/users/items/" + id
+        const url = "https://apiportfolio-api-heroku.herokuapp.com/api/users/items/" + id
         const auth = "Bearer " + this.props.token
         const header = {
             "Authorization": auth,
