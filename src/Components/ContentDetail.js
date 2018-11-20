@@ -12,7 +12,6 @@ class ContentDetail extends Component {
     componentWillMount = () => {
         let id = this.props.match.params.id
         this.props.getBook(id)
-        console.log(this.props)
     }
 
     handleAddCart(){

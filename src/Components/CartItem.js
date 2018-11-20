@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../App.css";
 
-import { withRouter} from 'react-router-dom' 
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from "unistore/react";
 import { actions } from "../store";
 
@@ -11,7 +11,7 @@ class CartItem extends Component {
         if(window.confirm('Apakah anda yakin?')){
             this.props.updateCart(this.props.id_buku, this.props.token, action)
             this.props.perubahanQty(this.props.id_buku, action)
-            console.log(this.props.qty)
+            // console.log(this.props.qty)
         }
     }
 
@@ -19,7 +19,13 @@ class CartItem extends Component {
         return (
             <div className="row">
                 <div className="col-sm-8">
-                    {this.props.judul}
+                    <Link to={'detail/' + this.props.id_buku} style={{textDecoration: 'none', color: 'black'}} title='Lihat detail buku'>
+                        {this.props.judul}
+                    </Link>
+                    <br/>
+                    <i title='Pelapak'>
+                        {this.props.pelapak}
+                    </i>
                 </div>
                 <div className="col-sm-4">
                     <a href='#' title="Kurangi" onClick={() => this.tambahHandle('kurang_qty')} ><i className="fas fa-minus"></i></a> &nbsp;

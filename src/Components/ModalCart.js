@@ -50,6 +50,7 @@ import axios from "axios";
                                     key= {key}
                                     id_buku = {item['buku.id']}
                                     judul = {item['buku.judul']}
+                                    pelapak = {item['buku.users.name']}
                                     id_detail = {item.id}
                                     price = {item.price}
                                     qty = {item.qty}
